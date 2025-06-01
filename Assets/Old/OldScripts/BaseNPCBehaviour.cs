@@ -325,7 +325,7 @@ public class BaseNPCBehaviour : MonoBehaviour
         else if (other.tag == "Spawner")
         {
             // If we have reached the spawner then self destruct and do a lot of damage
-            Spawner spawnerScript = other.gameObject.GetComponent<Spawner>();
+            OldSpawner spawnerScript = other.gameObject.GetComponent<OldSpawner>();
             if (spawnerScript != null)
             {
                 if(spawnerScript.team != team)
