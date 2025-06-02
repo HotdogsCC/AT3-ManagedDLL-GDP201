@@ -2,10 +2,14 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Transforms;
 using Unity.Burst;
+using System;
 
 [BurstCompile]
 public partial struct SpawnerSystem : ISystem
 {
+    //broadcasts an event for the UIMonoBehaviour to recieve 
+    public static Action OnSpawnEntity;
+
     public void OnCreate(ref SystemState state) {}
     
     public void OnDestroy(ref SystemState state) {}
@@ -85,6 +89,9 @@ public partial struct SpawnerSystem : ISystem
                 
                 //reset the spawn time
                 spawner.NextSpawnTime = (float)ElapsedTime + spawner.SpawnRate;
+                
+                // invoke the spawn event
+                OnSpawnEntity?.Invoke();
             }
         }
     }
