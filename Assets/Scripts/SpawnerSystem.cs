@@ -57,7 +57,7 @@ public partial struct SpawnerSystem : ISystem
         if (spawner.ValueRO.NextSpawnTime < SystemAPI.Time.ElapsedTime)
         {
             //spawns a new entity and positions it at the spawner
-            Entity newEntity = state.EntityManager.Instantiate(spawner.ValueRO.Prefab);
+            Entity newEntity = state.EntityManager.Instantiate(spawner.ValueRO.meleePrefab);
             
             //LocalTransform.FromPosition() returns a Transform inited with the given pos
             state.EntityManager.SetComponentData(
@@ -83,9 +83,15 @@ public partial struct SpawnerSystem : ISystem
             // if the next spawn time has passed
             if (spawner.NextSpawnTime < ElapsedTime)
             {
-                // spawns a new entity and positions it at the spawnre
-                Entity newEntity = Ecb.Instantiate(chunkIndex, spawner.Prefab);
+                // spawns a new entity
+                Entity newEntity = Ecb.Instantiate(chunkIndex, spawner.meleePrefab);
+                
+                // sets its position to be at the spawner
                 Ecb.SetComponent(chunkIndex, newEntity, LocalTransform.FromPosition(spawner.SpawnPosition));
+                
+                // set the colour to be of the spawner
+                
+                //Ecb.SetComponent(chunkIndex, newEntity, Movement.SetColour(spawner.materialColour));
                 
                 //reset the spawn time
                 spawner.NextSpawnTime = (float)ElapsedTime + spawner.SpawnRate;

@@ -11,15 +11,15 @@ public enum Team
 
 public class OldSpawner : MonoBehaviour
 {
-    public Team team;
-    float currentHealth;
-    float spawnTimer;
-    float spawnInterval = .3f;
+    public Team team; //
+    float currentHealth; //
+    float spawnTimer; //
+    float spawnInterval = .3f; //
     string teamName;
-    public BaseNPCBehaviour tankPrefab;
-    public BaseNPCBehaviour rangedPrefab;
-    public BaseNPCBehaviour meleePrefab;
-    public OldSpawner enemySpawner;
+    public BaseNPCBehaviour tankPrefab;  //
+    public BaseNPCBehaviour rangedPrefab; //
+    public BaseNPCBehaviour meleePrefab; //
+    public OldSpawner enemySpawner; 
     public Material teamMaterial;
     uint nextID;
     // Start is called before the first frame update

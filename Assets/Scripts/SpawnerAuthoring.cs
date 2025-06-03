@@ -1,10 +1,17 @@
 using UnityEngine;
 using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Rendering;
 
 class SpawnerAuthoring : MonoBehaviour
 {
-    public GameObject Prefab;
+    public GameObject TankPrefab;
+    public GameObject RangedPrefab;
+    public GameObject MeleePrefab;
+    public Team team;
     public float SpawnRate;
+    public Color materialColour;
+    public int startingHealth;
 }
 
 class SpawnerBaker : Baker<SpawnerAuthoring>
@@ -12,14 +19,25 @@ class SpawnerBaker : Baker<SpawnerAuthoring>
     public override void Bake(SpawnerAuthoring authoring)
     {
         Entity entity = GetEntity(TransformUsageFlags.None);
+        float4 tempColour;
         AddComponent(entity, new Spawner
         {
             // By default, each authoring GameObject turns into an Entity.
             // Given a GameObject (or authoring component), GetEntity looks up the resulting Entity.
-            Prefab = GetEntity(authoring.Prefab, TransformUsageFlags.Dynamic),
             SpawnPosition = authoring.transform.position,
             NextSpawnTime = 0.0f,
-            SpawnRate = authoring.SpawnRate
+            SpawnRate = authoring.SpawnRate,
+            team = authoring.team,
+            tankPrefab = GetEntity(authoring.TankPrefab, TransformUsageFlags.Dynamic),
+            rangedPrefab = GetEntity(authoring.RangedPrefab, TransformUsageFlags.Dynamic),
+            meleePrefab = GetEntity(authoring.MeleePrefab, TransformUsageFlags.Dynamic),
+            materialColour = new float4(
+                authoring.materialColour.r,
+                authoring.materialColour.g,
+                authoring.materialColour.b,
+                authoring.materialColour.a
+                ),
+            currentHealth = authoring.startingHealth
         });
     }
 }

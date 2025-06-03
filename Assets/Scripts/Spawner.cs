@@ -3,9 +3,6 @@ using Unity.Mathematics;
 
 public struct Spawner : IComponentData
 {
-    //The prefab of an agent to spawn 
-    //TEMP FOR TESTING
-    public Entity Prefab; 
     //Where to spawn the agent (this is set in the Baker)
     public float3 SpawnPosition;
     //How much time (in seconds) until it can spawn again
@@ -20,4 +17,8 @@ public struct Spawner : IComponentData
     public Entity rangedPrefab;
     //The prefab for the melee agent
     public Entity meleePrefab;
+    //The material to apply to the team
+    public float4 materialColour;
+    //The amount of health this spawner has
+    public int currentHealth;
 }
