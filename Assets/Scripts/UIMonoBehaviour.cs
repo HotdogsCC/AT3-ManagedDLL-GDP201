@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using UnityEngine;
 using TMPro;
 using Unity.Entities;
@@ -9,7 +11,7 @@ public class UIMonoBehaviour : MonoBehaviour
     [SerializeField] private TextMeshProUGUI fpsText;
 
     //how many agents are currently in the scene
-    private uint agentsInScene = 0;
+    private static uint agentsInScene = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -17,10 +19,16 @@ public class UIMonoBehaviour : MonoBehaviour
         SpawnerSystem.OnSpawnEntity += OnSpawnEntity;
     }
 
-    private void OnSpawnEntity()
+    private void Update()
     {
-        agentsInScene++;
+        //update the UI
         UpdateUI();
+    }
+
+    private static void OnSpawnEntity()
+    {
+        //update the amount agents in the scene
+        agentsInScene++;
     }
 
     private void UpdateUI()
@@ -29,7 +37,9 @@ public class UIMonoBehaviour : MonoBehaviour
         agentsText.text = "Agents: " + agentsInScene;
 
         //update fps
-        float fps = 1000f / Time.deltaTime;
-        fpsText.text = "Fps: " + fps.ToString();
+        float fps = 1f / Time.deltaTime;
+        int roundedFps = Mathf.RoundToInt(fps);
+        string fpsString = "Fps " + roundedFps.ToString(CultureInfo.CurrentCulture);
+        fpsText.text = fpsString;
     }
 }
