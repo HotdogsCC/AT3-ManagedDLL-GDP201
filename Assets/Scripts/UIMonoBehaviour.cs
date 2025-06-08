@@ -33,6 +33,7 @@ public class UIMonoBehaviour : MonoBehaviour
 
     private void UpdateUI()
     {
+        agentsInScene = UI.agentsSpawned;
         //update agent text
         agentsText.text = "Agents: " + agentsInScene;
 

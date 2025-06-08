@@ -89,6 +89,9 @@ public partial struct SpawnerSystem : ISystem
                 // sets its position to be at the spawner
                 Ecb.SetComponent(chunkIndex, newEntity, LocalTransform.FromPosition(spawner.SpawnPosition));
                 
+                // increment this spawner's count
+                spawner.spawnCount++;
+                
                 // set the colour to be of the spawner
                 
                 //Ecb.SetComponent(chunkIndex, newEntity, Movement.SetColour(spawner.materialColour));

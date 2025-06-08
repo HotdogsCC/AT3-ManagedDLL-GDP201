@@ -3,6 +3,9 @@ using Unity.Mathematics;
 
 public struct Spawner : IComponentData
 {
+    //the number of entities this spawner has spawned
+    public uint spawnCount;
+    
     //Where to spawn the agent (this is set in the Baker)
     public float3 SpawnPosition;
     //How much time (in seconds) until it can spawn again
