@@ -1,35 +1,27 @@
+using System;
 using Unity.Entities;
 using Unity.Transforms;
 using Unity.Burst;
 using Unity.Mathematics;
-
+using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
 [BurstCompile]
 public partial struct MovementSystem : ISystem
 {
-    public void OnCreate(ref SystemState state) {}
+    public void OnCreate(ref SystemState state)
+    {
+        Debug.Log("hello");
+    }
     
     public void OnDestroy(ref SystemState state) {}
-
-    private EntityCommandBuffer.ParallelWriter GetEntityCommandBuffer(ref SystemState state)
-    {
-        BeginSimulationEntityCommandBufferSystem.Singleton ecbSingleton = 
-            SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
-
-        EntityCommandBuffer ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
-        return ecb.AsParallelWriter();
-    }
 
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        EntityCommandBuffer.ParallelWriter ecb = GetEntityCommandBuffer(ref state);
-        
         //create a new instance of the job, assigns data, schedules in parallel
         new ProcessMovementJob
         {
-            Ecb = ecb,
             DeltaTime = SystemAPI.Time.DeltaTime
             
         }.ScheduleParallel();
@@ -37,14 +29,43 @@ public partial struct MovementSystem : ISystem
 
     public partial struct ProcessMovementJob : IJobEntity
     {
-        public EntityCommandBuffer.ParallelWriter Ecb;
         public float DeltaTime;
         
         // IJobEntity generates a component data query based on the parameters of its `Execute` method.
         // 'ref' specifies read and write access
 
-        private void Execute([ChunkIndexInQuery] int chunkIndex, ref LocalTransform transform, Movement movement)
+        private void Execute([ChunkIndexInQuery] int chunkIndex, ref LocalTransform transform, ref Movement movement)
         {
+            //do the behaviour based on its current state
+            switch (movement.currentState)
+            {
+                case NPCState.HEADING_TO_TARGET:
+                    //check if current target is 'null'
+                    if (movement.TargetPosition.x >= 9998.0f)
+                    {
+                        //set the current target to be the position of the enemy base
+                        movement.TargetPosition = SpawnerLocations.GetMyEnemyBasePosition(movement.team);
+                        
+                    }
+                    
+                    //see if a target is in range
+                    foreach (var pair in UI.agentPositions)
+                    {
+                        //if it is within range
+                        float3 otherPosition = pair.Value;
+                        if (math.distance(transform.Position, otherPosition) < movement.enemyRangeDetection)
+                        {
+                            movement.TargetPosition = pair.Value;
+                            break;
+                        }
+                    }
+                    break;
+                case NPCState.MELEE_ATTACK:
+                    break;
+                case NPCState.RANGE_ATTACK:
+                    break;
+            }
+            
             //get the vector that points from its position to the target
             float3 direction = movement.TargetPosition - transform.Position;
             
@@ -53,6 +74,9 @@ public partial struct MovementSystem : ISystem
             
             //move toward it
             transform.Position += normalized * movement.MoveSpeed * DeltaTime;
+
+            //currentPosition is used when getting positions of other agents for collision
+            movement.currentPosition = transform.Position;
         }
     }
 }

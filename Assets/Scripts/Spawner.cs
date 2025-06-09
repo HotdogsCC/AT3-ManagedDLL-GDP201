@@ -1,6 +1,33 @@
 using Unity.Entities;
 using Unity.Mathematics;
 
+public static class SpawnerLocations
+{
+    public static float3 team1BasePosition;
+    public static float3 team2BasePosition;
+    public static float3 team3BasePosition;
+    public static float3 team4BasePosition;
+
+    //team 1 hates team 2, team 3 hates team 4
+    //takes in the team and returns the position of its rival
+    public static float3 GetMyEnemyBasePosition(Team myTeam)
+    {
+        switch (myTeam)
+        {
+            case Team.TEAM_1:
+                return team2BasePosition;
+            case Team.TEAM_2:
+                return team1BasePosition;
+            case Team.TEAM_3:
+                return team4BasePosition;
+            case Team.TEAM_4:
+                return team3BasePosition;
+        }
+        
+        //'null' float if the above fails
+        return new float3(9999);
+    }
+}
 public struct Spawner : IComponentData
 {
     //the number of entities this spawner has spawned

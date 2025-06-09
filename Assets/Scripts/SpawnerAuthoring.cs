@@ -20,6 +20,31 @@ class SpawnerBaker : Baker<SpawnerAuthoring>
     {
         Entity entity = GetEntity(TransformUsageFlags.None);
         float4 tempColour;
+        
+        //create a float3 of its pos
+        float3 position = new float3(
+            authoring.transform.position.x,
+            authoring.transform.position.y,
+            authoring.transform.position.z
+        );
+        
+        //set it in a static class for easy access
+        switch (authoring.team)
+        {
+            case Team.TEAM_1:
+                SpawnerLocations.team1BasePosition = position;
+                break;
+            case Team.TEAM_2:
+                SpawnerLocations.team2BasePosition = position;
+                break;
+            case Team.TEAM_3:
+                SpawnerLocations.team3BasePosition = position;
+                break;
+            case Team.TEAM_4:
+                SpawnerLocations.team4BasePosition = position;
+                break;
+        }
+        
         AddComponent(entity, new Spawner
         {
             // By default, each authoring GameObject turns into an Entity.
