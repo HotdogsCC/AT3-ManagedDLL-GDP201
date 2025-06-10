@@ -20,11 +20,6 @@ public partial struct UISystem : ISystem
         
         UI.agentsSpawned = spawned;
         
-        //get agent positions
-        foreach (var (agent, entity) in SystemAPI.Query<RefRO<Movement>>().WithEntityAccess())
-        {
-            UI.agentPositions[entity.Index] = agent.ValueRO.currentPosition;
-        }
         
     }
 

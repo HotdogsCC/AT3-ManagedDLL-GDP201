@@ -35,9 +35,6 @@ public struct Movement : IComponentData
     
     //the position of where the entity should travel toward
     public float3 TargetPosition;
-    
-    //used when getting positions for collision checks
-    public float3 currentPosition;
 
 
 }

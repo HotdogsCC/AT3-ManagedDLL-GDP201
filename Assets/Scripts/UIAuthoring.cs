@@ -5,7 +5,7 @@ using Unity.Mathematics;
 
 class UIAuthoring : MonoBehaviour
 {
-    //public GameObject[] spawners;
+    
 }
 
 class UIBaker : Baker<UIAuthoring>
