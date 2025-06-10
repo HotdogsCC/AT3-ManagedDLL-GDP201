@@ -101,7 +101,7 @@ MonoBehaviour:
   moveSpeed: 0.5
   damage: 0
   enemyRangeDetection: 0
-  team: 0
+  team: 2
   maximumHealth: 0
   coolDownTime: 0
   projectile: {fileID: 0}

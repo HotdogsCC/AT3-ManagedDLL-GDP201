@@ -3,10 +3,10 @@ using Unity.Mathematics;
 
 public static class SpawnerLocations
 {
-    public static float3 team1BasePosition;
-    public static float3 team2BasePosition;
-    public static float3 team3BasePosition;
-    public static float3 team4BasePosition;
+    public static float3 team1BasePosition = new float3(0, 1, 0);
+    public static float3 team2BasePosition = new float3(0, 1, 45);
+    public static float3 team3BasePosition = new float3(-23, 1, 23);
+    public static float3 team4BasePosition = new float3(23, 1, 23);
 
     //team 1 hates team 2, team 3 hates team 4
     //takes in the team and returns the position of its rival

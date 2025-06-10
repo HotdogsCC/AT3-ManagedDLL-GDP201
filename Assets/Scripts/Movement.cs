@@ -26,8 +26,6 @@ public struct Movement : IComponentData
     public float coolDownTime; 
     // timer for attacks
     public float coolDownTimer; 
-    // entity currently being targeted
-    public Entity currentTarget;
     // whether to avoid to the left or right
     public bool bShouldAvoidToLeft;
     // projectile prefab

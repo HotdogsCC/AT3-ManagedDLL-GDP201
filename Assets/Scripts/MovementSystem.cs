@@ -43,10 +43,10 @@ public partial struct MovementSystem : ISystem
 
         private void Execute([ChunkIndexInQuery] int chunkIndex, Entity thisEntity, ref LocalTransform transform, ref Movement movement)
         {
-            //Debug.Log(transform.Position);
-            //get colliders
+            //used for storing all agents in collision zone
             NativeList<DistanceHit> hits = new NativeList<DistanceHit>(Allocator.Temp);
             
+            //runs a sphere collider to see what is in range
             physicsWorld.OverlapSphere(transform.Position, 0.25f, ref hits, new CollisionFilter
             {
                 BelongsTo = (uint)CollisionLayer.Enemy,
@@ -57,7 +57,7 @@ public partial struct MovementSystem : ISystem
             //resolve collisions
             foreach (var enemy in hits)
             {
-                //dont do anything is this is us
+                //don't do anything is this is us
                 if (enemy.Entity == thisEntity)
                 {
                     continue;
@@ -69,8 +69,11 @@ public partial struct MovementSystem : ISystem
                 
                 //add the push onto the agent
                 transform.Position += pushVector;
+                
+                //after being pushed out of one, don't deal with the others
+                break;
 
-
+                //the scope of this project is too small to deal with multi collisions
             }
             
             
@@ -79,26 +82,44 @@ public partial struct MovementSystem : ISystem
             //do the behaviour based on its current state
             switch (movement.currentState)
             {
-                
                 case NPCState.HEADING_TO_TARGET:
-                    //check if current target is 'null'
-                    if (movement.TargetPosition.x >= 9998.0f)
-                    {
-                        //set the current target to be the position of the enemy base
-                        movement.TargetPosition = SpawnerLocations.GetMyEnemyBasePosition(movement.team);
-                        
-                    }
+                    //set the current target to be the position of the enemy base
+                    movement.TargetPosition = SpawnerLocations.GetMyEnemyBasePosition(movement.team);
+                    
+                    //reuse the hits list from before (saving data!)
+                    hits.Clear();
                     
                     //see if a target is in range
-                    foreach (var pair in UI.agentPositions)
+                    physicsWorld.OverlapSphere(transform.Position, movement.enemyRangeDetection, ref hits, new CollisionFilter
                     {
-                        //if it is within range
-                        float3 otherPosition = pair.Value;
-                        if (math.distance(transform.Position, otherPosition) < movement.enemyRangeDetection)
+                        BelongsTo = (uint)CollisionLayer.Enemy,
+                        CollidesWith = (uint)CollisionLayer.Enemy
+
+                    });
+                    
+                    //pick the first target in range
+                    foreach (var enemy in hits)
+                    {
+                        //don't do anything is this is us
+                        if (enemy.Entity == thisEntity)
                         {
-                            movement.TargetPosition = pair.Value;
+                            continue;
+                        }
+                        
+                        //otherwise, this is an enemy. get ready for battle! 
+                        movement.TargetPosition = enemy.Position;
+                        
+                        //if we are an archer
+                        if (movement.npcType == NPCType.RANGED)
+                        {
+                            //then start firing
+                            movement.currentState = NPCState.RANGE_ATTACK;
+                            
+                            //we're done with this switch 
                             break;
                         }
+                        
+                        //if we are not an archer, we need to 
                     }
                     break;
                 case NPCState.MELEE_ATTACK:
@@ -107,7 +128,7 @@ public partial struct MovementSystem : ISystem
                     break;
             }
 
-            movement.TargetPosition = new float3(0, 1, 20); 
+            //movement.TargetPosition = new float3(0, 1, 20); 
             
             //get the vector that points from its position to the target
             float3 direction = movement.TargetPosition - transform.Position;
