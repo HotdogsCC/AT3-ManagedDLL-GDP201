@@ -34,5 +34,19 @@ public struct Movement : IComponentData
     //the position of where the entity should travel toward
     public float3 TargetPosition;
 
+    public static Movement NewTargetPosition(Movement currentMovement, float3 newTargetPosition)
+    {
+        Movement tempMovement = currentMovement;
+        tempMovement.TargetPosition = newTargetPosition;
+        return tempMovement;
+    }
+    
+    public static Movement SetCurrentState(Movement currentMovement, NPCState newState)
+    {
+        Movement tempMovement = currentMovement;
+        tempMovement.currentState = newState;
+        return tempMovement;
+    }
+
 
 }
