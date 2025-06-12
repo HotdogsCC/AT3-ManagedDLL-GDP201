@@ -5,7 +5,7 @@ using Unity.Burst;
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Physics;
-using UnityEngine;
+
 using Random = Unity.Mathematics.Random;
 
 [BurstCompile]
@@ -72,6 +72,7 @@ public partial struct MovementSystem : ISystem
                     HeadingToTarget(chunkIndex, thisEntity, ref transform);
                     break;
                 case NPCState.MELEE_ATTACK:
+                    DoMeleeAttack(chunkIndex, thisEntity, ref transform);
                     break;
                 case NPCState.RANGE_ATTACK:
                     break;
@@ -107,7 +108,6 @@ public partial struct MovementSystem : ISystem
                     Ecb.SetComponent(chunkIndex, thisEntity, Movement.SetCurrentState(
                         jobMovementLookup[thisEntity],
                         NPCState.MELEE_ATTACK));
-                    Debug.Log("on guard!");
                 }
 
                 //resolve the collision
@@ -180,6 +180,15 @@ public partial struct MovementSystem : ISystem
             
             //move toward it
             transform.Position += normalized * jobMovementLookup[thisEntity].MoveSpeed * DeltaTime;
+        }
+
+        private void DoMeleeAttack([ChunkIndexInQuery] int chunkIndex, Entity thisEntity, ref LocalTransform transform)
+        {
+            float curCoolDown = jobMovementLookup[thisEntity].coolDownTimer - DeltaTime;
+            if(curCoolDown <= 0)
+            {
+
+            }
         }
     }
 }
