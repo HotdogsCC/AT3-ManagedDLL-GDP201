@@ -48,5 +48,19 @@ public struct Movement : IComponentData
         return tempMovement;
     }
 
+    public static Movement ResetCoolDown(Movement currentMovement)
+    {
+        Movement tempMovement = currentMovement;
+        tempMovement.coolDownTimer = tempMovement.coolDownTime;
+        return tempMovement;
+    }
+    
+    public static Movement DecrementCoolDown(Movement currentMovement, float deltaTime)
+    {
+        Movement tempMovement = currentMovement;
+        tempMovement.coolDownTimer -= deltaTime;
+        return tempMovement;
+    }
+
 
 }

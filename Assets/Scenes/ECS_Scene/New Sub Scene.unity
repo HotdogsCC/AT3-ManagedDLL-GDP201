@@ -537,7 +537,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: SpawnRate
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
@@ -724,7 +724,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: SpawnRate
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
@@ -1174,7 +1174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: SpawnRate
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
@@ -1366,7 +1366,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: SpawnRate
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name
@@ -1436,7 +1436,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: SpawnRate
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name
@@ -1514,7 +1514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: SpawnRate
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
@@ -1596,7 +1596,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: SpawnRate
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
@@ -1709,7 +1709,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: SpawnRate
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
@@ -1818,7 +1818,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: SpawnRate
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
@@ -2390,7 +2390,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: SpawnRate
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
@@ -2468,7 +2468,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: SpawnRate
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
@@ -2695,7 +2695,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: SpawnRate
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name

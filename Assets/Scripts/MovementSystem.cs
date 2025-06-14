@@ -107,9 +107,13 @@ public partial struct MovementSystem : ISystem
                 //if this enemy is on a different team, engage in warfare
                 if (jobMovementLookup[thisEntity].team != jobMovementLookup.GetRefRO(enemy.Entity).ValueRO.team)
                 {
-                    Ecb.SetComponent(chunkIndex, thisEntity, Movement.SetCurrentState(
-                        jobMovementLookup[thisEntity],
-                        NPCState.MELEE_ATTACK));
+                    Ecb.SetComponent(chunkIndex, enemy.Entity, AgentDecrementer.Decrement());
+                    Ecb.AddComponent(chunkIndex, enemy.Entity, typeof(Disabled));
+                    
+                    
+                   // Ecb.SetComponent(chunkIndex, thisEntity, Movement.SetCurrentState(
+                   //    jobMovementLookup[thisEntity],
+                   //     NPCState.MELEE_ATTACK));
                 }
 
                 //resolve the collision
@@ -215,6 +219,7 @@ public partial struct MovementSystem : ISystem
                         //set the target position to edge 1
                         Ecb.SetComponent(chunkIndex, thisEntity, Movement.NewTargetPosition(
                             jobMovementLookup[thisEntity],
+                            
                             jobWallLookup[raycastHit.Entity].edge2));
                     }
                     
@@ -261,7 +266,16 @@ public partial struct MovementSystem : ISystem
             float curCoolDown = jobMovementLookup[thisEntity].coolDownTimer - DeltaTime;
             if(curCoolDown <= 0)
             {
-
+                //reset cooldown timer
+                Ecb.SetComponent(chunkIndex, thisEntity, Movement.ResetCoolDown(
+                    jobMovementLookup[thisEntity]));
+            }
+            else
+            {
+                //decrement the cooldown
+                Ecb.SetComponent(chunkIndex, thisEntity, Movement.DecrementCoolDown(
+                    jobMovementLookup[thisEntity],
+                    DeltaTime));
             }
         }
         

@@ -35,7 +35,7 @@ public class UIMonoBehaviour : MonoBehaviour
     {
         agentsInScene = UI.agentsSpawned;
         //update agent text
-        agentsText.text = "Agents: " + agentsInScene;
+        agentsText.text = "Agents: " + (agentsInScene - UI.agentsKilled);
 
         //update fps
         float fps = 1f / Time.deltaTime;

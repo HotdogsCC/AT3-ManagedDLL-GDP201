@@ -89,6 +89,9 @@ public partial struct SpawnerSystem : ISystem
                 // sets its position to be at the spawner
                 Ecb.SetComponent(chunkIndex, newEntity, LocalTransform.FromPosition(spawner.SpawnPosition));
                 
+                // add a dummy decrementer to it so it can call it later
+                Ecb.AddComponent(chunkIndex, newEntity, typeof(AgentDecrementer));
+                
                 // increment this spawner's count
                 spawner.spawnCount++;
                 
