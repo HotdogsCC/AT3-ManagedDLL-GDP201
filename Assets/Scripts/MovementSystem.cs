@@ -197,10 +197,28 @@ public partial struct MovementSystem : ISystem
                 //is there a wall?
                 if (physicsWorld.CastRay(raycastInput, out raycastHit))
                 {
-                    //set the target position to the side of the wall
-                    Ecb.SetComponent(chunkIndex, thisEntity, Movement.NewTargetPosition(
-                        jobMovementLookup[thisEntity],
-                        jobWallLookup[raycastHit.Entity].edge1));
+                    //figure out which edge is closer
+                    float edge1DistanceSq = math.distancesq(jobWallLookup[raycastHit.Entity].edge1, transform.Position);
+                    float edge2DistanceSq = math.distancesq(jobWallLookup[raycastHit.Entity].edge2, transform.Position);
+                    
+                    //is edge 1 closer?
+                    if (edge1DistanceSq < edge2DistanceSq)
+                    {
+                        //set the target position to edge 1
+                        Ecb.SetComponent(chunkIndex, thisEntity, Movement.NewTargetPosition(
+                            jobMovementLookup[thisEntity],
+                            jobWallLookup[raycastHit.Entity].edge1));
+                    }
+                    //edge 2 is closer
+                    else
+                    {
+                        //set the target position to edge 1
+                        Ecb.SetComponent(chunkIndex, thisEntity, Movement.NewTargetPosition(
+                            jobMovementLookup[thisEntity],
+                            jobWallLookup[raycastHit.Entity].edge2));
+                    }
+                    
+                    
                 }
             }
             
