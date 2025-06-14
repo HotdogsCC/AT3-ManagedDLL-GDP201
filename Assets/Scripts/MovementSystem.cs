@@ -42,7 +42,8 @@ public partial struct MovementSystem : ISystem
             DeltaTime = SystemAPI.Time.DeltaTime,
             physicsWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>(),
             Ecb = ecb,
-            jobMovementLookup = SystemAPI.GetComponentLookup<Movement>(true)
+            jobMovementLookup = SystemAPI.GetComponentLookup<Movement>(true),
+            jobWallLookup = SystemAPI.GetComponentLookup<ECSWall>(true)
             
         }.ScheduleParallel();
         
@@ -56,6 +57,7 @@ public partial struct MovementSystem : ISystem
         public EntityCommandBuffer.ParallelWriter Ecb;
         [ReadOnly] public PhysicsWorldSingleton physicsWorld;
         [ReadOnly] public ComponentLookup<Movement> jobMovementLookup;
+        [ReadOnly] public ComponentLookup<ECSWall> jobWallLookup;
         
         // IJobEntity generates a component data query based on the parameters of its `Execute` method.
         // 'ref' specifies read and write access
@@ -145,8 +147,9 @@ public partial struct MovementSystem : ISystem
                 CollidesWith = GetCollisionLayer.Please(jobMovementLookup[thisEntity].team)
 
             });
-                    
-            //pick the first target in range
+
+            bool isThereAnEnemy = false;
+            //if there are targets, set target as first one
             foreach (var enemy in hits)
             {
                 //don't do anything is this is us
@@ -156,6 +159,8 @@ public partial struct MovementSystem : ISystem
                 }
                 
                 //otherwise, this is an enemy. get ready for battle!
+                isThereAnEnemy = true;
+                
                 Ecb.SetComponent(chunkIndex, thisEntity, Movement.NewTargetPosition(
                     jobMovementLookup[thisEntity],
                     enemy.Position));
@@ -171,6 +176,35 @@ public partial struct MovementSystem : ISystem
                 }
                         
             }
+
+            hits.Dispose();
+
+            // if there isn't an enemy, check for walls in the way
+            if (!isThereAnEnemy)
+            {
+                //sets up params for the raycast
+                RaycastInput raycastInput = default;
+                raycastInput.Start = transform.Position;
+                raycastInput.End = GetRaycastEndPosition(thisEntity, ref transform);
+                raycastInput.Filter = new CollisionFilter
+                {
+                    BelongsTo = (uint)CollisionLayer.AllEnemies,
+                    CollidesWith = (uint)CollisionLayer.Wall
+
+                };
+                RaycastHit raycastHit = default;
+                
+                //is there a wall?
+                if (physicsWorld.CastRay(raycastInput, out raycastHit))
+                {
+                    //set the target position to the side of the wall
+                    Ecb.SetComponent(chunkIndex, thisEntity, Movement.NewTargetPosition(
+                        jobMovementLookup[thisEntity],
+                        jobWallLookup[raycastHit.Entity].edge1));
+                }
+            }
+            
+            //move toward target
             
             //get the vector that points from its position to the target
             float3 direction = jobMovementLookup[thisEntity].TargetPosition - transform.Position;
@@ -182,6 +216,28 @@ public partial struct MovementSystem : ISystem
             transform.Position += normalized * jobMovementLookup[thisEntity].MoveSpeed * DeltaTime;
         }
 
+        private float3 GetRaycastEndPosition(Entity thisEntity, ref LocalTransform transform)
+        {
+            float3 adder = new float3(0);
+            switch (jobMovementLookup[thisEntity].team)
+            {
+                case Team.TEAM_1:
+                    adder.z = jobMovementLookup[thisEntity].enemyRangeDetection;
+                    break;
+                case Team.TEAM_2:
+                    adder.z = -jobMovementLookup[thisEntity].enemyRangeDetection;
+                    break;
+                case Team.TEAM_3:
+                    adder.x = jobMovementLookup[thisEntity].enemyRangeDetection;
+                    break;
+                case Team.TEAM_4:
+                    adder.x = -jobMovementLookup[thisEntity].enemyRangeDetection;
+                    break;
+            }
+
+            return transform.Position + adder;
+        }
+
         private void DoMeleeAttack([ChunkIndexInQuery] int chunkIndex, Entity thisEntity, ref LocalTransform transform)
         {
             float curCoolDown = jobMovementLookup[thisEntity].coolDownTimer - DeltaTime;
@@ -190,5 +246,7 @@ public partial struct MovementSystem : ISystem
 
             }
         }
+        
+        
     }
 }

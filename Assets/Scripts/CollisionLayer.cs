@@ -9,7 +9,8 @@ public enum CollisionLayer
     Team2Enemies = 1664,
     Team3Enemies = 1408,
     Team4Enemies = 896,
-    AllEnemies = 1920
+    AllEnemies = 1920,
+    Wall = 8
 }
 
 public static class GetCollisionLayer
