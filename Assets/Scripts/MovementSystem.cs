@@ -5,6 +5,7 @@ using Unity.Burst;
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Physics;
+using MyDLL;
 
 using Random = Unity.Mathematics.Random;
 
@@ -65,7 +66,15 @@ public partial struct MovementSystem : ISystem
         
         private void Execute([ChunkIndexInQuery] int chunkIndex, Entity thisEntity, ref LocalTransform transform)
         {
-            ResolveCollisions(chunkIndex, thisEntity, ref transform);
+            MyPhysics myPhysics = new MyPhysics
+            {
+                Ecb = Ecb,
+                physicsWorld = physicsWorld,
+                jobMovementLookup = jobMovementLookup
+            };
+
+
+            //ResolveCollisions(chunkIndex, thisEntity, ref transform);
             
             //do the behaviour based on its current state
             switch (jobMovementLookup[thisEntity].currentState)
