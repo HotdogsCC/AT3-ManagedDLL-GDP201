@@ -2,25 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Security;
 using UnityEngine;
-
-public enum NPCType
-{ 
-    MELEE,
-    RANGED,
-    TANK,
-    WALL,
-    NONE
-}
-
-
-public enum NPCState
-{
-    HEADING_TO_TARGET,
-    MELEE_ATTACK,
-    RANGE_ATTACK,
-}
-
-
+using MyDLL;
 
 
 public class BaseNPCBehaviour : MonoBehaviour

@@ -1,15 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public enum Team
-{
-    TEAM_1 = 0,
-    TEAM_2 = 1,
-    TEAM_3 = 2,
-    TEAM_4 = 3
-}
-
+using MyDLL;
 
 public class OldSpawner : MonoBehaviour
 {

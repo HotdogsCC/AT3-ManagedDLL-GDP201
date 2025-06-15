@@ -3,6 +3,7 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Burst;
 using System;
+using MyDLL;
 
 [BurstCompile]
 public partial struct SpawnerSystem : ISystem

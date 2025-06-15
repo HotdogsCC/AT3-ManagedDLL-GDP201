@@ -3,6 +3,7 @@ using System.Globalization;
 using UnityEngine;
 using TMPro;
 using Unity.Entities;
+using MyDLL;
 
 public class UIMonoBehaviour : MonoBehaviour
 {

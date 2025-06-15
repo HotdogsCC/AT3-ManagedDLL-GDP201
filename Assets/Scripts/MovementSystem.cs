@@ -73,7 +73,7 @@ public partial struct MovementSystem : ISystem
                 jobMovementLookup = jobMovementLookup
             };
 
-
+            myPhysics.ResolveCollisions(chunkIndex, thisEntity, ref transform);
             //ResolveCollisions(chunkIndex, thisEntity, ref transform);
             
             //do the behaviour based on its current state

@@ -1,6 +1,7 @@
 using Unity.Entities;
 using Unity.Burst;
 using UnityEngine;
+using MyDLL;
 
 [BurstCompile]
 public partial struct UISystem : ISystem

@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Rendering;
+using MyDLL;
 
 class SpawnerAuthoring : MonoBehaviour
 {

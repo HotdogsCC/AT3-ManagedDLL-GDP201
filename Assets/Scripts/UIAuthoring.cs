@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 using Unity.Mathematics;
+using MyDLL;
 
 class UIAuthoring : MonoBehaviour
 {
