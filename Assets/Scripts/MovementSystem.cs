@@ -66,6 +66,7 @@ public partial struct MovementSystem : ISystem
         
         private void Execute([ChunkIndexInQuery] int chunkIndex, Entity thisEntity, ref LocalTransform transform)
         {
+            //collision resolution written in MyDLL
             MyPhysics myPhysics = new MyPhysics
             {
                 Ecb = Ecb,
@@ -74,7 +75,6 @@ public partial struct MovementSystem : ISystem
             };
 
             myPhysics.ResolveCollisions(chunkIndex, thisEntity, ref transform);
-            //ResolveCollisions(chunkIndex, thisEntity, ref transform);
             
             //do the behaviour based on its current state
             switch (jobMovementLookup[thisEntity].currentState)
@@ -86,61 +86,10 @@ public partial struct MovementSystem : ISystem
                     DoMeleeAttack(chunkIndex, thisEntity, ref transform);
                     break;
                 case NPCState.RANGE_ATTACK:
+                    DoRangedAttack(chunkIndex, thisEntity, ref transform);
                     break;
             }
             
-        }
-
-        private void ResolveCollisions([ChunkIndexInQuery] int chunkIndex, Entity thisEntity, ref LocalTransform transform)
-        {
-            //used for storing all agents in collision zone
-            NativeList<DistanceHit> hits = new NativeList<DistanceHit>(Allocator.Temp);
-            
-            //runs a sphere collider to see what is being collided with
-            physicsWorld.OverlapSphere(transform.Position, 0.25f, ref hits, new CollisionFilter
-            {
-                BelongsTo = (uint)CollisionLayer.AllEnemies,
-                CollidesWith = (uint)CollisionLayer.AllEnemies
-
-            });
-            
-            //resolve collisions
-            foreach (var enemy in hits)
-            {
-                //don't do anything is this is us
-                if (enemy.Entity == thisEntity)
-                {
-                    continue;
-                }
-                
-                //if this enemy is on a different team, engage in warfare
-                if (jobMovementLookup[thisEntity].team != jobMovementLookup.GetRefRO(enemy.Entity).ValueRO.team)
-                {
-                    Ecb.SetComponent(chunkIndex, enemy.Entity, AgentDecrementer.Decrement());
-                    Ecb.AddComponent(chunkIndex, enemy.Entity, typeof(Disabled));
-                    
-                    
-                   // Ecb.SetComponent(chunkIndex, thisEntity, Movement.SetCurrentState(
-                   //    jobMovementLookup[thisEntity],
-                   //     NPCState.MELEE_ATTACK));
-                }
-
-                //resolve the collision
-                float pushDistance = 0.25f - math.distance(transform.Position, enemy.Position);
-                float3 pushVector = math.normalizesafe(transform.Position - enemy.Position) * pushDistance;
-                
-                //add the push onto the agent
-                transform.Position += pushVector;
-                
-                //after being pushed out of one, don't deal with the others
-                break;
-
-                //the scope of this project is too small to deal with multi collisions
-            }
-
-            //we're done with the list, so free up the memory
-            hits.Dispose();
-
         }
 
         private void HeadingToTarget([ChunkIndexInQuery] int chunkIndex, Entity thisEntity, ref LocalTransform transform)
@@ -287,7 +236,38 @@ public partial struct MovementSystem : ISystem
                     DeltaTime));
             }
         }
-        
-        
+
+        private void DoRangedAttack([ChunkIndexInQuery] int chunkIndex, Entity thisEntity, ref LocalTransform transform)
+        {
+            //sets up params for the raycast
+            RaycastInput raycastInput = default;
+            raycastInput.Start = transform.Position;
+            raycastInput.End = GetRaycastEndPosition(thisEntity, ref transform);
+            raycastInput.Filter = new CollisionFilter
+            {
+                BelongsTo = (uint)CollisionLayer.AllEnemies,
+                CollidesWith = GetCollisionLayer.Please(jobMovementLookup[thisEntity].team)
+
+            };
+            RaycastHit raycastHit = default;
+                
+            //check there is an enemy at the target position
+            if (physicsWorld.CastRay(raycastInput, out raycastHit))
+            {
+                //spawn the projectile
+                Entity projectileInstance = Ecb.Instantiate(chunkIndex, jobMovementLookup[thisEntity].projectile);
+                
+                //set the projectile position to where we are
+                Ecb.SetComponent(chunkIndex, projectileInstance, LocalTransform.FromPosition(transform.Position));
+            }
+            
+            //otherwise, go back to heading to the target
+            else
+            {
+                Ecb.SetComponent(chunkIndex, thisEntity, Movement.SetCurrentState(
+                    jobMovementLookup[thisEntity],
+                    NPCState.HEADING_TO_TARGET));
+            }
+        }
     }
 }

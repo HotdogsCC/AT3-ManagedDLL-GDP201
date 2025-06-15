@@ -97,14 +97,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a72204775021bc449d9acfdaccf1d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcType: 0
+  npcType: 1
   moveSpeed: 2
   damage: 0
   enemyRangeDetection: 5
   team: 1
   maximumHealth: 0
   coolDownTime: 0
-  projectile: {fileID: 0}
+  projectile: {fileID: 3341738057908649707, guid: b2d419f505cddfd41a152a8cf475a33c, type: 3}
 --- !u!65 &-8486663390588053397
 BoxCollider:
   m_ObjectHideFlags: 0

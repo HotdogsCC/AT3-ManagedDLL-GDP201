@@ -104,7 +104,7 @@ MonoBehaviour:
   team: 3
   maximumHealth: 0
   coolDownTime: 0
-  projectile: {fileID: 0}
+  projectile: {fileID: 3341738057908649707, guid: b2d419f505cddfd41a152a8cf475a33c, type: 3}
 --- !u!65 &530693876763015568
 BoxCollider:
   m_ObjectHideFlags: 0
