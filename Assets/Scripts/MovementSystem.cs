@@ -75,18 +75,25 @@ public partial struct MovementSystem : ISystem
             };
 
             myPhysics.ResolveCollisions(chunkIndex, thisEntity, ref transform);
+
+            MyStateMachine myStateMachine = new MyStateMachine
+            {
+                Ecb = Ecb,
+                physicsWorld = physicsWorld,
+                jobMovementLookup = jobMovementLookup,
+                jobWallLookup = jobWallLookup
+            };
             
             //do the behaviour based on its current state
             switch (jobMovementLookup[thisEntity].currentState)
             {
                 case NPCState.HEADING_TO_TARGET:
-                    HeadingToTarget(chunkIndex, thisEntity, ref transform);
-                    break;
-                case NPCState.MELEE_ATTACK:
-                    DoMeleeAttack(chunkIndex, thisEntity, ref transform);
+                    //HeadingToTarget(chunkIndex, thisEntity, ref transform);
+                    myStateMachine.HeadingToTarget(chunkIndex, thisEntity, ref transform, DeltaTime);
                     break;
                 case NPCState.RANGE_ATTACK:
-                    DoRangedAttack(chunkIndex, thisEntity, ref transform);
+                    //DoRangedAttack(chunkIndex, thisEntity, ref transform);
+                    myStateMachine.DoRangedAttack(chunkIndex, thisEntity, ref transform, DeltaTime);
                     break;
             }
             

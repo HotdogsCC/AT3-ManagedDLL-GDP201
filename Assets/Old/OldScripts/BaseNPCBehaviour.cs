@@ -282,10 +282,6 @@ public class BaseNPCBehaviour : MonoBehaviour
                 transform.position = position;
                 break;
 
-            case NPCState.MELEE_ATTACK:
-                doMeleeAttack();
-                break;
-
             case NPCState.RANGE_ATTACK:
                 doRangeAttack();
                 break;
@@ -325,7 +321,7 @@ public class BaseNPCBehaviour : MonoBehaviour
             {
                 if(enemyScript.team != team)
                 {
-                    currentState = NPCState.MELEE_ATTACK;
+                    currentState = NPCState.HEADING_TO_TARGET;
                     currentTarget = other.gameObject;
                 }
             }
