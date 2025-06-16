@@ -101,7 +101,7 @@ public partial struct MovementSystem : ISystem
                     
             //used for storing all agents in collision zone
             NativeList<DistanceHit> hits = new NativeList<DistanceHit>(Allocator.Temp);
-                    
+
             //see if a target is in range
             physicsWorld.OverlapSphere(transform.Position, jobMovementLookup[thisEntity].enemyRangeDetection, ref hits, new CollisionFilter
             {
@@ -134,6 +134,9 @@ public partial struct MovementSystem : ISystem
                     Ecb.SetComponent(chunkIndex, thisEntity, Movement.SetCurrentState(
                         jobMovementLookup[thisEntity],
                         NPCState.RANGE_ATTACK));
+
+                    hits.Dispose();
+                    return;
 
                 }
                         
@@ -242,7 +245,7 @@ public partial struct MovementSystem : ISystem
             //sets up params for the raycast
             RaycastInput raycastInput = default;
             raycastInput.Start = transform.Position;
-            raycastInput.End = GetRaycastEndPosition(thisEntity, ref transform);
+            raycastInput.End = jobMovementLookup[thisEntity].TargetPosition;
             raycastInput.Filter = new CollisionFilter
             {
                 BelongsTo = (uint)CollisionLayer.AllEnemies,
@@ -259,6 +262,15 @@ public partial struct MovementSystem : ISystem
                 
                 //set the projectile position to where we are
                 Ecb.SetComponent(chunkIndex, projectileInstance, LocalTransform.FromPosition(transform.Position));
+
+                Ecb.AddComponent(chunkIndex, projectileInstance, new Projectile
+                {
+                    targetPosition = raycastHit.Position,
+                    speed = 10,
+                    damage = 1,
+                    aliveTime = 1,
+                    team = jobMovementLookup[thisEntity].team
+                });
             }
             
             //otherwise, go back to heading to the target

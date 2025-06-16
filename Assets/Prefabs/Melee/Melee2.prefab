@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a72204775021bc449d9acfdaccf1d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcType: 1
+  npcType: 0
   moveSpeed: 2
   damage: 0
   enemyRangeDetection: 5
