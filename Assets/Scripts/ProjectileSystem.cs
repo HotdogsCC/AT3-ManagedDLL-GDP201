@@ -2,7 +2,10 @@ using Unity.Entities;
 using Unity.Burst;
 using Unity.Transforms;
 using Unity.Mathematics;
+using Unity.Physics;
+using Unity.Collections;
 using System;
+using MyDLL;
 
 [BurstCompile]
 public partial struct ProjectileSystem : ISystem
@@ -27,7 +30,8 @@ public partial struct ProjectileSystem : ISystem
         new ProcessProjectileJob
         {
             deltaTime = SystemAPI.Time.DeltaTime,
-            ecb = GetEntityCommandBuffer(ref state)
+            ecb = GetEntityCommandBuffer(ref state),
+            physicsWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>()
 
         }.ScheduleParallel();
     }
@@ -36,6 +40,7 @@ public partial struct ProjectileSystem : ISystem
     {
         public float deltaTime;
         public EntityCommandBuffer.ParallelWriter ecb;
+        [ReadOnly] public PhysicsWorldSingleton physicsWorld;
 
         private void Execute([ChunkIndexInQuery] int chunkIndex, ref LocalTransform transform, ref Projectile projectile, Entity thisEntity)
         {
@@ -48,6 +53,28 @@ public partial struct ProjectileSystem : ISystem
                 ecb.AddComponent(chunkIndex, thisEntity, typeof(Disabled));
 
                 //and we're finished
+                return;
+            }
+            
+            //used for storing all agents in collision zone
+            NativeList<DistanceHit> hits = new NativeList<DistanceHit>(Allocator.Temp);
+            
+            //are we touching an enemy?
+            physicsWorld.OverlapSphere(transform.Position, 0.25f, ref hits, new CollisionFilter
+            {
+                BelongsTo = (uint)CollisionLayer.Default,
+                CollidesWith = (uint)GetCollisionLayer.Please(projectile.team)
+            });
+
+            //runs if we hit something
+            foreach (var enemy in hits)
+            {
+                //schedule enemy for deletion
+                ecb.AddComponent(chunkIndex, enemy.Entity, typeof(Disabled));
+                
+                //schedule projectile for deletion
+                ecb.AddComponent(chunkIndex, thisEntity, typeof(Disabled));
+
                 return;
             }
 
@@ -79,14 +106,9 @@ public partial struct ProjectileSystem : ISystem
             }
 
             //otherwise, move toward the target
-            else
-            {
-                float3 newPos = currentPosition + directionVector;
-                //set the position to the target
-                ecb.SetComponent(chunkIndex, thisEntity, LocalTransform.FromPosition(newPos));
-
-                return;
-            }
+            float3 newPos = currentPosition + directionVector;
+            //set the position to the target
+            ecb.SetComponent(chunkIndex, thisEntity, LocalTransform.FromPosition(newPos));
         }
     }
 

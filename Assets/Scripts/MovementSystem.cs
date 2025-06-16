@@ -94,10 +94,18 @@ public partial struct MovementSystem : ISystem
 
         private void HeadingToTarget([ChunkIndexInQuery] int chunkIndex, Entity thisEntity, ref LocalTransform transform)
         {
-            //set the current target to be the position of the enemy base
-            Ecb.SetComponent(chunkIndex, thisEntity, Movement.NewTargetPosition(
-                jobMovementLookup[thisEntity],
-                SpawnerLocations.GetMyEnemyBasePosition(jobMovementLookup[thisEntity].team)));
+            //checks if the target is valid
+            if (jobMovementLookup[thisEntity].TargetPosition.x >= 9998)
+            {
+                //set the current target to be the position of the enemy base
+                Ecb.SetComponent(chunkIndex, thisEntity, Movement.NewTargetPosition(
+                    jobMovementLookup[thisEntity],
+                    SpawnerLocations.GetMyEnemyBasePosition(jobMovementLookup[thisEntity].team)));
+
+                return;
+            }
+            
+            
                     
             //used for storing all agents in collision zone
             NativeList<DistanceHit> hits = new NativeList<DistanceHit>(Allocator.Temp);
@@ -123,21 +131,27 @@ public partial struct MovementSystem : ISystem
                 //otherwise, this is an enemy. get ready for battle!
                 isThereAnEnemy = true;
                 
-                Ecb.SetComponent(chunkIndex, thisEntity, Movement.NewTargetPosition(
-                    jobMovementLookup[thisEntity],
-                    enemy.Position));
-                        
                 //if we are an archer
                 if (jobMovementLookup[thisEntity].npcType == NPCType.RANGED)
                 {
                     //then start firing
-                    Ecb.SetComponent(chunkIndex, thisEntity, Movement.SetCurrentState(
+                    Ecb.SetComponent(chunkIndex, thisEntity, Movement.SetStateAndTarget(
                         jobMovementLookup[thisEntity],
+                        enemy.Position,
                         NPCState.RANGE_ATTACK));
 
                     hits.Dispose();
                     return;
 
+                }
+                
+                //otherwise if we are a melee
+                if(jobMovementLookup[thisEntity].npcType == NPCType.MELEE)
+                {
+                    //new target position is the enemy
+                    Ecb.SetComponent(chunkIndex, thisEntity, Movement.NewTargetPosition(
+                        jobMovementLookup[thisEntity],
+                        enemy.Position));
                 }
                         
             }
@@ -185,6 +199,15 @@ public partial struct MovementSystem : ISystem
                     }
                     
                     
+                }
+
+                //if there are no walls and no enemies, there is no target
+                else
+                {
+                    //set the current target to be the position of the enemy base
+                    Ecb.SetComponent(chunkIndex, thisEntity, Movement.NewTargetPosition(
+                        jobMovementLookup[thisEntity],
+                        SpawnerLocations.GetMyEnemyBasePosition(jobMovementLookup[thisEntity].team)));
                 }
             }
             
