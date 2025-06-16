@@ -242,44 +242,62 @@ public partial struct MovementSystem : ISystem
 
         private void DoRangedAttack([ChunkIndexInQuery] int chunkIndex, Entity thisEntity, ref LocalTransform transform)
         {
-            //sets up params for the raycast
-            RaycastInput raycastInput = default;
-            raycastInput.Start = transform.Position;
-            raycastInput.End = jobMovementLookup[thisEntity].TargetPosition;
-            raycastInput.Filter = new CollisionFilter
+            float curCoolDown = jobMovementLookup[thisEntity].coolDownTimer - DeltaTime;
+            if(curCoolDown <= 0)
             {
-                BelongsTo = (uint)CollisionLayer.AllEnemies,
-                CollidesWith = GetCollisionLayer.Please(jobMovementLookup[thisEntity].team)
+                //reset cooldown timer
+                Ecb.SetComponent(chunkIndex, thisEntity, Movement.ResetCoolDown(
+                    jobMovementLookup[thisEntity]));
 
-            };
-            RaycastHit raycastHit = default;
-                
-            //check there is an enemy at the target position
-            if (physicsWorld.CastRay(raycastInput, out raycastHit))
-            {
-                //spawn the projectile
-                Entity projectileInstance = Ecb.Instantiate(chunkIndex, jobMovementLookup[thisEntity].projectile);
-                
-                //set the projectile position to where we are
-                Ecb.SetComponent(chunkIndex, projectileInstance, LocalTransform.FromPosition(transform.Position));
-
-                Ecb.AddComponent(chunkIndex, projectileInstance, new Projectile
+                //sets up params for the raycast
+                RaycastInput raycastInput = default;
+                raycastInput.Start = transform.Position;
+                raycastInput.End = jobMovementLookup[thisEntity].TargetPosition;
+                raycastInput.Filter = new CollisionFilter
                 {
-                    targetPosition = raycastHit.Position,
-                    speed = 10,
-                    damage = 1,
-                    aliveTime = 1,
-                    team = jobMovementLookup[thisEntity].team
-                });
+                    BelongsTo = (uint)CollisionLayer.AllEnemies,
+                    CollidesWith = GetCollisionLayer.Please(jobMovementLookup[thisEntity].team)
+
+                };
+                RaycastHit raycastHit = default;
+
+                //check there is an enemy at the target position
+                if (physicsWorld.CastRay(raycastInput, out raycastHit))
+                {
+                    //spawn the projectile
+                    Entity projectileInstance = Ecb.Instantiate(chunkIndex, jobMovementLookup[thisEntity].projectile);
+
+                    //set the projectile position to where we are
+                    Ecb.SetComponent(chunkIndex, projectileInstance, LocalTransform.FromPosition(transform.Position));
+
+                    Ecb.AddComponent(chunkIndex, projectileInstance, new Projectile
+                    {
+                        targetPosition = raycastHit.Position,
+                        speed = 10,
+                        damage = 1,
+                        aliveTime = 1,
+                        team = jobMovementLookup[thisEntity].team
+                    });
+                }
+
+                //otherwise, go back to heading to the target
+                else
+                {
+                    Ecb.SetComponent(chunkIndex, thisEntity, Movement.SetCurrentState(
+                        jobMovementLookup[thisEntity],
+                        NPCState.HEADING_TO_TARGET));
+                }
             }
-            
-            //otherwise, go back to heading to the target
+
             else
             {
-                Ecb.SetComponent(chunkIndex, thisEntity, Movement.SetCurrentState(
+                //decrement the cooldown
+                Ecb.SetComponent(chunkIndex, thisEntity, Movement.DecrementCoolDown(
                     jobMovementLookup[thisEntity],
-                    NPCState.HEADING_TO_TARGET));
+                    DeltaTime));
             }
         }
+
+            
     }
 }

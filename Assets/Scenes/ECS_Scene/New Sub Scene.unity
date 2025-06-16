@@ -540,9 +540,17 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: TankPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: dc68117d08a83334b85f249e7460eb6f, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
       value: 
       objectReference: {fileID: 8060025088084454086, guid: dc68117d08a83334b85f249e7460eb6f, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: RangedPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 6b35b71a3a46d8d40bc2ea5ce1601af1, type: 3}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name
       value: Green Spawner (1)
@@ -727,9 +735,17 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: TankPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 9cb8ba5a99de12045a9d26c07ce59a36, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
       value: 
       objectReference: {fileID: 8060025088084454086, guid: 9cb8ba5a99de12045a9d26c07ce59a36, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: RangedPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 2cc8a5cc7b4423c4d9b8fe8419ab53ac, type: 3}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name
       value: Yellow Spawner
@@ -1177,9 +1193,17 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: TankPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 96a07338e33f1ff4a894df1450a23e6e, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
       value: 
       objectReference: {fileID: 8060025088084454086, guid: 96a07338e33f1ff4a894df1450a23e6e, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: RangedPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: e4c4f1e76c0c22d428b03c1307074038, type: 3}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name
       value: Blue Spawner (2)
@@ -1368,6 +1392,14 @@ PrefabInstance:
       propertyPath: SpawnRate
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: TankPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 3bd826baba28dbf47b5da8133a1db168, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: RangedPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: e6d4550e9372ed747ba2779d8f29f7e9, type: 3}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name
       value: Red Spawner (2)
@@ -1438,6 +1470,14 @@ PrefabInstance:
       propertyPath: SpawnRate
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: TankPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 3bd826baba28dbf47b5da8133a1db168, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: RangedPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: e6d4550e9372ed747ba2779d8f29f7e9, type: 3}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name
       value: Red Spawner (1)
@@ -1517,9 +1557,17 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: TankPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 9cb8ba5a99de12045a9d26c07ce59a36, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
       value: 
       objectReference: {fileID: 8060025088084454086, guid: 9cb8ba5a99de12045a9d26c07ce59a36, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: RangedPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 2cc8a5cc7b4423c4d9b8fe8419ab53ac, type: 3}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name
       value: Yellow Spawner (2)
@@ -1599,9 +1647,17 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: TankPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 9cb8ba5a99de12045a9d26c07ce59a36, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
       value: 
       objectReference: {fileID: 8060025088084454086, guid: 9cb8ba5a99de12045a9d26c07ce59a36, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: RangedPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 2cc8a5cc7b4423c4d9b8fe8419ab53ac, type: 3}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name
       value: Yellow Spawner (1)
@@ -1712,9 +1768,17 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: TankPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 96a07338e33f1ff4a894df1450a23e6e, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
       value: 
       objectReference: {fileID: 8060025088084454086, guid: 96a07338e33f1ff4a894df1450a23e6e, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: RangedPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: e4c4f1e76c0c22d428b03c1307074038, type: 3}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name
       value: Blue Spawner
@@ -1821,9 +1885,17 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: TankPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: dc68117d08a83334b85f249e7460eb6f, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
       value: 
       objectReference: {fileID: 8060025088084454086, guid: dc68117d08a83334b85f249e7460eb6f, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: RangedPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 6b35b71a3a46d8d40bc2ea5ce1601af1, type: 3}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name
       value: Green Spawner
@@ -2393,9 +2465,17 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: TankPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 96a07338e33f1ff4a894df1450a23e6e, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
       value: 
       objectReference: {fileID: 8060025088084454086, guid: 96a07338e33f1ff4a894df1450a23e6e, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: RangedPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: e4c4f1e76c0c22d428b03c1307074038, type: 3}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name
       value: Blue Spawner (1)
@@ -2471,9 +2551,17 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: TankPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: dc68117d08a83334b85f249e7460eb6f, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: MeleePrefab
       value: 
       objectReference: {fileID: 8060025088084454086, guid: dc68117d08a83334b85f249e7460eb6f, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: RangedPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 6b35b71a3a46d8d40bc2ea5ce1601af1, type: 3}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name
       value: Green Spawner (2)
@@ -2697,6 +2785,14 @@ PrefabInstance:
       propertyPath: SpawnRate
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: TankPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: 3bd826baba28dbf47b5da8133a1db168, type: 3}
+    - target: {fileID: 3849183220416213123, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
+      propertyPath: RangedPrefab
+      value: 
+      objectReference: {fileID: 8060025088084454086, guid: e6d4550e9372ed747ba2779d8f29f7e9, type: 3}
     - target: {fileID: 7340955749874814638, guid: 122fded50c6629441a42d044ad36cbc9, type: 3}
       propertyPath: m_Name
       value: Red Spawner

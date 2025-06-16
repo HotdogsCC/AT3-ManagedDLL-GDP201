@@ -48,8 +48,6 @@ public struct Spawner : IComponentData
     public Entity rangedPrefab;
     //The prefab for the melee agent
     public Entity meleePrefab;
-    //The material to apply to the team
-    public float4 materialColour;
     //The amount of health this spawner has
     public int currentHealth;
 }

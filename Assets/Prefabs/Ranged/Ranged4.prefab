@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 5420875193601693311}
   - component: {fileID: 8455494156042643289}
   - component: {fileID: -3387891473690034893}
-  - component: {fileID: -8486663390588053397}
-  m_Layer: 8
-  m_Name: Melee2
+  - component: {fileID: 530693876763015568}
+  m_Layer: 10
+  m_Name: Ranged4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,8 +30,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8060025088084454086}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &8455494156042643289
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0b0cdaa5ae1c3bf4a86e829a47bcceaf, type: 2}
+  - {fileID: 2100000, guid: c13bcaca5cf074f469341f3751b58316, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,15 +97,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a72204775021bc449d9acfdaccf1d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcType: 0
+  npcType: 1
   moveSpeed: 2
   damage: 0
   enemyRangeDetection: 5
-  team: 1
+  team: 3
   maximumHealth: 0
-  coolDownTime: 0
+  coolDownTime: 0.5
   projectile: {fileID: 3341738057908649707, guid: b2d419f505cddfd41a152a8cf475a33c, type: 3}
---- !u!65 &-8486663390588053397
+--- !u!65 &530693876763015568
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

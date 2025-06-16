@@ -4,6 +4,8 @@ using Unity.Transforms;
 using Unity.Burst;
 using System;
 using MyDLL;
+using Unity.Mathematics;
+using Random = Unity.Mathematics.Random;
 
 [BurstCompile]
 public partial struct SpawnerSystem : ISystem
@@ -11,7 +13,12 @@ public partial struct SpawnerSystem : ISystem
     //broadcasts an event for the UIMonoBehaviour to recieve 
     public static Action OnSpawnEntity;
 
-    public void OnCreate(ref SystemState state) {}
+    public Random randomNumber;
+
+    public void OnCreate(ref SystemState state) 
+    {
+        randomNumber = new Random(1);
+    }
     
     public void OnDestroy(ref SystemState state) {}
 
@@ -28,52 +35,25 @@ public partial struct SpawnerSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+      
         EntityCommandBuffer.ParallelWriter ecb = GetEntityCommandBuffer(ref state);
         
         //create a new instance of the job, assigns data, schedules in parallel
         new ProcessSpawnerJob
         {
             ElapsedTime = SystemAPI.Time.ElapsedTime,
-            Ecb = ecb
+            Ecb = ecb,
+            randNumber = randomNumber.NextInt(0, 3)
         }.ScheduleParallel();
 
-
-
-
-        //single thread
-
-        // Queries for all Spawner components. Uses RefRW because this system wants
-        // to read from and write to the component. If the system only needed read-only
-        // access, it would use RefRO instead.
-
-        //foreach (RefRW<Spawner> spawner in SystemAPI.Query<RefRW<Spawner>>())
-        //{
-        //    ProcessSpawner(ref state, spawner);
-        //}
     }
 
-    private void ProcessSpawner(ref SystemState state, RefRW<Spawner> spawner)
-    {
-        //if the next spawn time has passed
-        if (spawner.ValueRO.NextSpawnTime < SystemAPI.Time.ElapsedTime)
-        {
-            //spawns a new entity and positions it at the spawner
-            Entity newEntity = state.EntityManager.Instantiate(spawner.ValueRO.meleePrefab);
-            
-            //LocalTransform.FromPosition() returns a Transform inited with the given pos
-            state.EntityManager.SetComponentData(
-                newEntity, 
-                LocalTransform.FromPosition(spawner.ValueRO.SpawnPosition));
-            
-            //resets the next spawn time
-            spawner.ValueRW.NextSpawnTime = (float)SystemAPI.Time.ElapsedTime + spawner.ValueRO.SpawnRate;
-        }
-    }
 
     public partial struct ProcessSpawnerJob : IJobEntity
     {
         public EntityCommandBuffer.ParallelWriter Ecb;
         public double ElapsedTime;
+        public int randNumber;
         
         // IJobEntity generates a component data query based on the parameters of its `Execute` method.
         // This example queries for all Spawner components and uses `ref` to specify that the operation
@@ -84,11 +64,29 @@ public partial struct SpawnerSystem : ISystem
             // if the next spawn time has passed
             if (spawner.NextSpawnTime < ElapsedTime)
             {
-                // spawns a new entity
-                Entity newEntity = Ecb.Instantiate(chunkIndex, spawner.meleePrefab);
+                Entity newEntity;
+                //pick a random enemy to spawn
+                switch (randNumber)
+                {
+                    case 1:
+                        // spawns a new entity
+                        newEntity = Ecb.Instantiate(chunkIndex, spawner.tankPrefab);
+                        break;
+
+                    case 2:
+                        // spawns a new entity
+                        newEntity = Ecb.Instantiate(chunkIndex, spawner.rangedPrefab);
+                        break;
+
+                    default:
+                        // spawns a new entity
+                        newEntity = Ecb.Instantiate(chunkIndex, spawner.meleePrefab);
+                        break;
+                }
                 
                 // sets its position to be at the spawner
-                Ecb.SetComponent(chunkIndex, newEntity, LocalTransform.FromPosition(spawner.SpawnPosition));
+                Ecb.SetComponent(chunkIndex, newEntity, LocalTransform.FromPositionRotationScale(spawner.SpawnPosition, quaternion.identity, 0.25f));
+                
                 
                 // add a dummy decrementer to it so it can call it later
                 Ecb.AddComponent(chunkIndex, newEntity, typeof(AgentDecrementer));

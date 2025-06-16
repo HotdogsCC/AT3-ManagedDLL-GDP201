@@ -19,7 +19,6 @@ class SpawnerBaker : Baker<SpawnerAuthoring>
     public override void Bake(SpawnerAuthoring authoring)
     {
         Entity entity = GetEntity(TransformUsageFlags.None);
-        float4 tempColour;
         
         //create a float3 of its pos
         float3 position = new float3(
@@ -56,12 +55,6 @@ class SpawnerBaker : Baker<SpawnerAuthoring>
             tankPrefab = GetEntity(authoring.TankPrefab, TransformUsageFlags.Dynamic),
             rangedPrefab = GetEntity(authoring.RangedPrefab, TransformUsageFlags.Dynamic),
             meleePrefab = GetEntity(authoring.MeleePrefab, TransformUsageFlags.Dynamic),
-            materialColour = new float4(
-                authoring.materialColour.r,
-                authoring.materialColour.g,
-                authoring.materialColour.b,
-                authoring.materialColour.a
-                ),
             currentHealth = authoring.startingHealth
         });
     }
